@@ -110,12 +110,9 @@ public class LineChartActivity1 extends DemoBase {
     class OnSeekBarChangeListenerImp implements OnSeekBarChangeListener {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
             tvX.setText("" + (mSeekBarX.getProgress() + 1));
             tvY.setText("" + (mSeekBarY.getProgress()));
-
             setData(mSeekBarX.getProgress() + 1, mSeekBarY.getProgress());
-
             // redraw
             mChart.invalidate();
         }
@@ -422,8 +419,8 @@ public class LineChartActivity1 extends DemoBase {
             // set the line to be drawn like this "- - - - - -"
             set1.enableDashedLine(10f, 5f, 0f);
             set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.BLACK);
+            set1.setColor(getResources().getColor(R.color.tempLineColor));
+            set1.setCircleColor(getResources().getColor(R.color.tempLineColor));
             set1.setLineWidth(1f);
             set1.setCircleRadius(3f);
             set1.setDrawCircleHole(false);
