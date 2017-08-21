@@ -185,12 +185,12 @@ public class LineChartActivity1 extends DemoBase {
         mv.setChartView(mChart); // For bounds control
         mChart.setMarker(mv); // Set the marker to the chart
 
-        // x-axis limit line
-        LimitLine llXAxis = new LimitLine(10f, "Index 10");
-        llXAxis.setLineWidth(4f);
-        llXAxis.enableDashedLine(10f, 10f, 0f);
-        llXAxis.setLabelPosition(LimitLabelPosition.RIGHT_BOTTOM);
-        llXAxis.setTextSize(10f);
+//        // x-axis limit line
+//        LimitLine llXAxis = new LimitLine(10f, "Index 10");
+//        llXAxis.setLineWidth(4f);
+//        llXAxis.enableDashedLine(10f, 10f, 0f);
+//        llXAxis.setLabelPosition(LimitLabelPosition.RIGHT_BOTTOM);
+//        llXAxis.setTextSize(10f);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.enableGridDashedLine(10f, 10f, 0f);
@@ -201,15 +201,15 @@ public class LineChartActivity1 extends DemoBase {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
         LimitLine upperLL = new LimitLine(100f, "Upper Limit");
-        upperLL.setLineWidth(4f);
-        upperLL.enableDashedLine(10f, 10f, 0f);
+        upperLL.setLineWidth(1f);
+        upperLL.enableDashedLine(10f, 5f, 0f);
         upperLL.setLabelPosition(LimitLabelPosition.RIGHT_TOP);
         upperLL.setTextSize(10f);
         upperLL.setTypeface(typeface);
 
         LimitLine lowerLL = new LimitLine(-20f, "Lower Limit");
-        lowerLL.setLineWidth(4f);
-        lowerLL.enableDashedLine(10f, 10f, 0f);
+        lowerLL.setLineWidth(1f);
+        lowerLL.enableDashedLine(10f, 5f, 0f);
         lowerLL.setLabelPosition(LimitLabelPosition.RIGHT_BOTTOM);
         lowerLL.setTextSize(10f);
         lowerLL.setTypeface(typeface);
