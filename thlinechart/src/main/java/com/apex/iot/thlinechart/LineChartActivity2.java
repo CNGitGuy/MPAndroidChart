@@ -77,7 +77,6 @@ public class LineChartActivity2 extends DemoBase {
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,21 +97,16 @@ public class LineChartActivity2 extends DemoBase {
 
         mChart = (LineChart) findViewById(R.id.chart1);
         mChart.setOnChartValueSelectedListener(chartValueSelectedListener);
-
         // no description text
         mChart.getDescription().setEnabled(false);
-
         // enable touch gestures
         mChart.setTouchEnabled(true);
-
         mChart.setDragDecelerationFrictionCoef(0.9f);
-
         // enable scaling and dragging
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(true);
         mChart.setDrawGridBackground(false);
         mChart.setHighlightPerDragEnabled(true);
-
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
 
