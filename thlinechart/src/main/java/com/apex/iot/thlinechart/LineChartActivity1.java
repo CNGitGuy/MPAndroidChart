@@ -265,11 +265,9 @@ public class LineChartActivity1 extends DemoBase {
 
         switch (item.getItemId()) {
             case R.id.actionToggleValues: {
-                List<ILineDataSet> sets = mChart.getData()
-                        .getDataSets();
-
+                //意一个chart里面会有多个曲线，把所有曲线的属性都改变
+                List<ILineDataSet> sets = mChart.getData().getDataSets();
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     set.setDrawValues(!set.isDrawValuesEnabled());
                 }
@@ -284,12 +282,9 @@ public class LineChartActivity1 extends DemoBase {
                 break;
             }
             case R.id.actionToggleFilled: {
-
-                List<ILineDataSet> sets = mChart.getData()
-                        .getDataSets();
-
+                //意一个chart里面会有多个曲线，把所有曲线的属性都改变
+                List<ILineDataSet> sets = mChart.getData().getDataSets();
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     if (set.isDrawFilledEnabled())
                         set.setDrawFilled(false);
@@ -300,11 +295,9 @@ public class LineChartActivity1 extends DemoBase {
                 break;
             }
             case R.id.actionToggleCircles: {
-                List<ILineDataSet> sets = mChart.getData()
-                        .getDataSets();
-
+                //意一个chart里面会有多个曲线，把所有曲线的属性都改变
+                List<ILineDataSet> sets = mChart.getData().getDataSets();
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     if (set.isDrawCirclesEnabled())
                         set.setDrawCircles(false);
@@ -315,11 +308,9 @@ public class LineChartActivity1 extends DemoBase {
                 break;
             }
             case R.id.actionToggleCubic: {
-                List<ILineDataSet> sets = mChart.getData()
-                        .getDataSets();
-
+                //意一个chart里面会有多个曲线，把所有曲线的属性都改变
+                List<ILineDataSet> sets = mChart.getData().getDataSets();
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
                             ? LineDataSet.Mode.LINEAR
@@ -329,11 +320,9 @@ public class LineChartActivity1 extends DemoBase {
                 break;
             }
             case R.id.actionToggleStepped: {
-                List<ILineDataSet> sets = mChart.getData()
-                        .getDataSets();
-
+                //意一个chart里面会有多个曲线，把所有曲线的属性都改变
+                List<ILineDataSet> sets = mChart.getData().getDataSets();
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.STEPPED
                             ? LineDataSet.Mode.LINEAR
@@ -343,11 +332,9 @@ public class LineChartActivity1 extends DemoBase {
                 break;
             }
             case R.id.actionToggleHorizontalCubic: {
-                List<ILineDataSet> sets = mChart.getData()
-                        .getDataSets();
-
+                //意一个chart里面会有多个曲线，把所有曲线的属性都改变
+                List<ILineDataSet> sets = mChart.getData().getDataSets();
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.HORIZONTAL_BEZIER
                             ? LineDataSet.Mode.LINEAR
@@ -405,45 +392,46 @@ public class LineChartActivity1 extends DemoBase {
             values.add(new Entry(i, val));
         }
 
-        LineDataSet set1;
+        LineDataSet set;
         if (mChart.getData() != null &&
                 mChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
+            set = (LineDataSet) mChart.getData().getDataSetByIndex(0);
+            set.setValues(values);
+            set.setDrawValues(false);
+//            set.setDrawCircles(false);
+            set.setDrawFilled(false);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values, "DataSet 1");
+            set = new LineDataSet(values, "DataSet 1");
 
+            set.setDrawValues(false);//不画数据值
+//            set.setDrawCircles(false);//不画数据圆点
             // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(getResources().getColor(R.color.tempLineColor));
-            set1.setCircleColor(getResources().getColor(R.color.tempLineColor));
-            set1.setLineWidth(1f);
-            set1.setCircleRadius(3f);
-            set1.setDrawCircleHole(false);
-            set1.setValueTextSize(9f);
-            set1.setDrawFilled(true);
-            set1.setFormLineWidth(1f);
-            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-            set1.setFormSize(15.f);
+            set.enableDashedLine(10f, 5f, 0f);
+            set.enableDashedHighlightLine(10f, 5f, 0f);
+            set.setColor(getResources().getColor(R.color.tempLineColor));
+            set.setCircleColor(getResources().getColor(R.color.tempLineColor));
+            set.setLineWidth(1f);
+            set.setCircleRadius(3f);
+            set.setDrawCircleHole(false);
+            set.setValueTextSize(9f);
+            set.setDrawFilled(true);
+            set.setFormLineWidth(1f);
+            set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            set.setFormSize(15.f);
 
             if (Utils.getSDKInt() >= 18) {
                 // fill drawable only supported on api level 18 and above
                 Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
-                set1.setFillDrawable(drawable);
+                set.setFillDrawable(drawable);
             } else {
-                set1.setFillColor(Color.BLACK);
+                set.setFillColor(Color.BLACK);
             }
-
-            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-            dataSets.add(set1); // add the datasets
-
+            set.setDrawFilled(false);
             // create a data object with the datasets
-            LineData data = new LineData(dataSets);
-
+            LineData data = new LineData(set);
             // set data
             mChart.setData(data);
         }
