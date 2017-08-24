@@ -137,7 +137,8 @@ public class LineChartActivity2 extends DemoBase {
         xAxis.setTextSize(11f);
         xAxis.setTextColor(chartColor);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
+        xAxis.enableGridDashedLine(10f, 10f, 0f);
+        xAxis.setDrawGridLines(true);
         xAxis.setDrawAxisLine(false);
 
         LimitLine upperLL = new LimitLine(60, "60℃");
@@ -157,6 +158,7 @@ public class LineChartActivity2 extends DemoBase {
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTypeface(mTfLight);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setLabelCount(11);
         leftAxis.setAxisMaximum(80f);
         leftAxis.setAxisMinimum(-30f);
         leftAxis.setDrawGridLines(true);
@@ -166,6 +168,7 @@ public class LineChartActivity2 extends DemoBase {
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setTypeface(mTfLight);
+        rightAxis.setLabelCount(11);
         rightAxis.setTextColor(Color.RED);
         rightAxis.setAxisMaximum(80f);
         rightAxis.setAxisMinimum(-30f);

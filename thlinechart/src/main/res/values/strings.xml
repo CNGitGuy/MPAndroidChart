@@ -1,3 +1,126 @@
 <resources>
     <string name="app_name">THLineChart</string>
+
+    <!--debug-->
+    <string name="success">保存成功</string>
+    <string name="failure">保存失败</string>
+    <string name="waybillNB">货物单号：</string>
+    <string name="waybillTime">运单时间：</string>
+    <string name="waybillCreator">创    建    人  ：</string>
+    <string name="shipAddr">发货地址：</string>
+    <string name="receiptAddr">收货地址：</string>
+
+    <string name="delayTime">延迟时间：</string>
+    <string name="interrvalSamp">采样间隔时间</string>
+    <string name="MaxTemp">温度警戒上限</string>
+    <string name="MinTemp">温度警戒下限：</string>
+    <string name="MaxTempOutTime">允许温度过高时间(min)：</string>
+    <string name="MinTempOutTime">允许温度过低时间(min)：</string>
+    <string name="maxHumidity">湿度警戒上限：</string>
+    <string name="minHumidity">湿度警戒下限：</string>
+    <string name="maxHumidityOutTime">允许湿度过高时间(min)：</string>
+    <string name="minHumidityOutTime">允许湿度过低时间(min)：</string>
+    <string name="allOutTime">温湿度超限总时间(min)：</string>
+    <string name="maxSamplingTime">最大采样次数 ：</string>
+    <string name="samplingAllTime">采样总时间：</string>
+    <string name="startMode">启动方式</string>
+    <string name="dialogTitle">请输入文件名</string>
+    <string name="determine">确定</string>
+    <string name="cancel">取消</string>
+    <string name="pressStart">按键启动</string>
+    <string name="phoneStart">手机启动</string>
+    <string name="makeCard">开始配置</string>
+    <string name="edit">编辑</string>
+    <string name="startmode">启动方式</string>
+    <string name="editFileName">温湿度传感器</string>
+    <string name="versionUpdate">版本更新></string>
+    <string name="useExplanation">使用说明></string>
+    <string name="NfcTag">NFC标示位></string>
+    <string name="aboutUs">关于我们</string>
+    <string name="configHistory">历史配置记录</string>
+    <string name="configTime">配置时间</string>
+    <string name="createNewConfigFile">创建新配置文件</string>
+    <string name="ReadData">如何读取温湿度数据?</string>
+    <string name="TouchWIFI">如何配置温湿度参数并制卡？</string>
+    <string name="howMakeCard">如何查看温湿度曲线图？</string>
+    <string name="howReadData">如何配置温湿度参数并制卡？</string>
+    <string name="readData">首页</string>
+    <string name="createNewWaybill">配置</string>
+    <string name="us">我们</string>
+    <string name="version">1.0.0</string>
+    <string name="updateTime">20170821</string>
+    <string name="drawChart">绘制图形</string>
+    <string name="help_item_1_1">1.点击读数据界面中的卡片进入温度曲线图界面。</string>
+    <string name="help_item_1_2">2.点击湿度曲线图按钮进入湿度曲线图界面，通过点击导出温、湿度数据按钮可以把温、湿度数据保存到本地Excel文档中。</string>
+    <string name="help_item_2_1">1.点击首页左上方NFC,切换连接选项为WIFI.</string>
+    <string name="help_item_2_2">2.将读卡器与手机靠近，连接相对应的Wi-Fi.</string>
+    <string name="help_item_2_3">3.将项链贴近读卡器进行读取或者制作。</string>
+    <string name="help_item_4_1">1.进入读数据界面后在手机NFC区域贴卡读取温湿度数据。</string>
+    <string name="help_item_4_2">2.读取完成后界面上会显示NFC卡信息以及运单文本信息,长按卡片可以对其进行删除。</string>
+    <string name="help_item_4_3">3.将项链贴近读卡器进行制作。</string>
+
+
+    <string name="help_item_3_1">1.进入配置标签界面创建新配置参数文件或者打开历史配置记录中已配置过的文件，</string>
+    <string name="help_item_3_2">2.进入配置参数界面配置参数。</string>
+    <string name="makeConfigFile">配置新标签</string>
+    <string name="fragment_produce_tips">请将NFC标签贴近手机</string>
+    <string name="dialog_connect_type_title">连接选项</string>
+    <string name="scan_wifi"><![CDATA[正在扫描WiFi&#8230;]]></string>
+    <string name="loading">请将卡片贴近手机</string>
+    <string name="tips">提示</string>
+    <string name="nonsupport_nfc">该手机不支持NFC！</string>
+    <string name="open_nfc">请到设置中开启NFC！</string>
+    <string name="confirm">确定</string>
+    <string name="startTime">起始时间：</string>
+    <string name="stopTime">结束时间：</string>
+    <string name="tempChart">温度曲线</string>
+    <string name="humidityChart">湿度曲线、</string>
+
+    <!-- bar code-->
+    <string name="scan_failed">Scan failed!</string>
+    <string name="WillNb">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
+
+    <string name="Text_Empty">不能为空</string>
+    <string name="Text_Over">不能超过</string>
+    <string name="Test_Under">不能低于</string>
+
+    <!-- default card setting-->
+    <string name="default_setting_number">110020425</string>
+    <string name="default_setting_creator"></string>
+    <string name="default_setting_send_address"></string>
+    <string name="default_setting_receive_address"></string>
+
+    <string name="default_setting_delay_time">60</string>
+    <string name="default_setting_interval">15</string>
+    <string name="default_setting_samp_times">800</string>
+    <string name="default_setting_max_temp">35</string>
+
+    <string name="default_setting_min_temp">-10</string>
+    <string name="default_setting_temp_over_time">0</string>
+    <string name="default_setting_temp_under_time">0</string>
+    <string name="default_setting_max_humidity">90</string>
+
+    <string name="default_setting_min_humidity">30</string>
+    <string name="default_setting_humidity_over_time">0</string>
+    <string name="default_setting_humidity_under_time">0</string>
+    <string name="default_setting_all_illegal_time">0</string>
+    <string name="deadline">采集结束日期：</string>
+    <string name="min">(分钟)</string>
+    <string name="temp"> (°C  )</string>
+    <string name="humidity">( %RH)</string>
+    <string name="howFindExcel">如何找到导出到Excel文档的温湿度数据？</string>
+    <string name="howUseHardware">如何使用温湿度传感器标签？</string>
+    <string name="help_find_excel1">1、在绘图界面点击“导出温/湿度数据”按钮，并显示“导出温/湿度数据完成！”表示成功导出温湿度数据到Excel文档中。</string>
+    <string name="help_find_excel2">2、在本地文件中找到“NfcTemp”文件夹。</string>
+    <string name="help_find_excel3">3、在NfcTemp文件夹中找到对应卡片的子文件夹，子文件夹以卡片ID号命名，在子文件夹中根据自己的货单号找到对应导出的温/湿度数据的Excel文件。</string>
+    <string name="help_use_hardware1">一、如何通过按键启动NFC温湿度标签？</string>
+    <string name="help_use_hardware2">1、通过手机端App配置参数。</string>
+    <string name="help_use_hardware3">2、按下按键出现红灯闪烁一次开始启动。</string>
+    <string name="help_use_hardware4">二、如何停止NFC温湿度标签？</string>
+    <string name="help_use_hardware5">1、达到设定采样数，自动停止。</string>
+    <string name="help_use_hardware6">2、长按按键直到蓝灯亮起，在蓝灯熄灭之前松开按键即可停止。</string>
+    <string name="get_temp">采集温度：</string>
+    <string name="get_rh">采集湿度</string>
+    <string name="activity_about_ico">©2017 Apex Microelectronics Co.,Ltd.</string>
 </resources>
