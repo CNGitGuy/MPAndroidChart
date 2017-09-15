@@ -13,11 +13,11 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PreviewLineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.LimitLine;
@@ -40,8 +40,7 @@ import java.util.List;
 public class LineChartActivity1 extends DemoBase {
 
     private LineChart mChart;
-    private SeekBar mSeekBarX, mSeekBarY;
-    private TextView tvX, tvY;
+    private PreviewLineChart mPreviewLineChart;
     OnChartGestureListener chartGestureListener = new OnChartGestureListenerImp();
     OnChartValueSelectedListener chartValueSelectedListener = new OnChartValueSelectedListenerImp();
     OnSeekBarChangeListener seekBarChangeListener = new OnSeekBarChangeListenerImp();
@@ -110,9 +109,6 @@ public class LineChartActivity1 extends DemoBase {
     class OnSeekBarChangeListenerImp implements OnSeekBarChangeListener {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            tvX.setText("" + (mSeekBarX.getProgress() + 1));
-            tvY.setText("" + (mSeekBarY.getProgress()));
-            setData(mSeekBarX.getProgress() + 1, mSeekBarY.getProgress());
             // redraw
             mChart.invalidate();
         }
@@ -135,24 +131,12 @@ public class LineChartActivity1 extends DemoBase {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_linechart);
-
-        findViews();
+        setContentView(R.layout.activity_linechart1);
+        initNormalChart();
+        initPreviewChart();
     }
 
-    void findViews() {
-        tvX = (TextView) findViewById(R.id.tvXMax);
-        tvY = (TextView) findViewById(R.id.tvYMax);
-
-        mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
-        mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
-
-        mSeekBarX.setProgress(45);
-        mSeekBarY.setProgress(100);
-
-        mSeekBarY.setOnSeekBarChangeListener(seekBarChangeListener);
-        mSeekBarX.setOnSeekBarChangeListener(seekBarChangeListener);
-
+    void initNormalChart() {
         mChart = (LineChart) findViewById(R.id.chart1);
         mChart.setOnChartGestureListener(chartGestureListener);
         mChart.setOnChartValueSelectedListener(chartValueSelectedListener);
@@ -176,21 +160,14 @@ public class LineChartActivity1 extends DemoBase {
         // set an alternative background color
         // mChart.setBackgroundColor(Color.GRAY);
 
-        // create a custom MarkerView (extend MarkerView) and specify the layout
-        // to use for it
+        // create a custom MarkerView (extend MarkerView) and specify the layout to use for it
         MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
         mv.setChartView(mChart); // For bounds control
         mChart.setMarker(mv); // Set the marker to the chart
 
-//        // x-axis limit line
-//        LimitLine llXAxis = new LimitLine(10f, "Index 10");
-//        llXAxis.setLineWidth(4f);
-//        llXAxis.enableDashedLine(10f, 10f, 0f);
-//        llXAxis.setLabelPosition(LimitLabelPosition.RIGHT_BOTTOM);
-//        llXAxis.setTextSize(10f);
-
         XAxis xAxis = mChart.getXAxis();
         xAxis.enableGridDashedLine(10f, 10f, 0f);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP);
         //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
         //xAxis.addLimitLine(llXAxis); // add x-axis limit line
 
@@ -230,8 +207,7 @@ public class LineChartActivity1 extends DemoBase {
         //mChart.getViewPortHandler().setMaximumScaleX(2f);
 
         // add data
-        setData(45, 100);
-
+        setData(4500, 100);
 //        mChart.setVisibleXRange(20);
 //        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
 //        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
@@ -245,8 +221,18 @@ public class LineChartActivity1 extends DemoBase {
         // modify the legend ...
         l.setForm(LegendForm.LINE);
 
-        // // dont forget to refresh the drawing
+        // // don't forget to refresh the drawing
         // mChart.invalidate();
+    }
+
+    void initPreviewChart() {
+        mPreviewLineChart = (PreviewLineChart) findViewById(R.id.previewLineChart);
+        mPreviewLineChart.bindLineChart(mChart, 200);
+//        mPreviewLineChart.
+        XAxis xAxis = mPreviewLineChart.getXAxis();
+        xAxis.setEnabled(true);
+        xAxis.enableGridDashedLine(10f, 10f, 0f);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP);
     }
 
     @Override
@@ -434,6 +420,9 @@ public class LineChartActivity1 extends DemoBase {
             LineData data = new LineData(set);
             // set data
             mChart.setData(data);
+            mChart.setVisibleXRangeMaximum(100);
+            //enable chart log
+            mChart.setLogEnabled(true);
         }
     }
 }

@@ -82,15 +82,12 @@ public class LineChartActivity2 extends DemoBase {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_linechart);
+        setContentView(R.layout.activity_linechart1);
 
         tvX = (TextView) findViewById(R.id.tvXMax);
         tvY = (TextView) findViewById(R.id.tvYMax);
         mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
         mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
-
-        mSeekBarX.setProgress(45);
-        mSeekBarY.setProgress(100);
 
         mSeekBarY.setOnSeekBarChangeListener(seekBarChangeListener);
         mSeekBarX.setOnSeekBarChangeListener(seekBarChangeListener);
@@ -114,7 +111,11 @@ public class LineChartActivity2 extends DemoBase {
 //        mChart.setBackgroundColor(Color.LTGRAY);
 
         // add data
-        setData(20, 60);
+        setData(20, 60);//20个点，60的波动范围
+        tvX.setText("" + 20);
+        tvY.setText("" + 60);
+        mSeekBarX.setProgress(20-1);
+        mSeekBarY.setProgress(60);
 
         mChart.animateX(2500);
         int chartColor = getResources().getColor(R.color.tempLineColor);
@@ -208,6 +209,9 @@ public class LineChartActivity2 extends DemoBase {
             LineData data = new LineData(set);
             data.setValueTextColor(Color.WHITE);
             data.setValueTextSize(9f);
+
+            //enable chart log
+            mChart.setLogEnabled(true);
             // set data
             mChart.setData(data);
         }
