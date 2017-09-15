@@ -59,7 +59,7 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart-Realm:v2.0.2@aar'
 
     compile project(':MPChartLib')
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     //compile 'io.realm:realm-android:0.87.5' // dependency for realm-database API (http://realm.io)
     //compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
 }
