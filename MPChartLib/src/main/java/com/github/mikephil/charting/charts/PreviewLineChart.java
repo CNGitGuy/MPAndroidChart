@@ -39,7 +39,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     /**
      * 选择区域的X坐标
      */
-    private int mX;
+    private int mLeft;
 
     //onTouchEvent ACTION_DOWN事件中手指的起始位置
     private int mLastX;
@@ -72,15 +72,21 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
 
 
     public PreviewLineChart(Context context) {
-        this(context, null);
+        super(context);
+        initPreLineChart();
     }
 
     public PreviewLineChart(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        initPreLineChart();
     }
 
     public PreviewLineChart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        initPreLineChart();
+    }
+
+    private void initPreLineChart() {
         mPreviewPaint1.setAntiAlias(true);
         mPreviewPaint1.setStrokeJoin(Paint.Join.MITER);
         mPreviewPaint1.setColor(Color.GREEN);
@@ -98,7 +104,6 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
         setTouchEnabled(false);
         setScaleEnabled(false);
         setPinchZoom(false);
-        mMinOffset = 0;
     }
 
     public void bindLineChart(LineChart lineChart, int previewCount) {
@@ -161,22 +166,22 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (mMoveSelectedArea) {
-            mX = mLastSelectPosition + mOffsetX;
+            mLeft = mLastSelectPosition + mOffsetX;
             Log.e("mOffsetX", "" + mOffsetX);
-            if (mX < 0) {
-                mX = 0;
+            if (mLeft < mMinOffset) {
+                mLeft = (int) mMinOffset;
             }
-            if (mX > mMaxOffsetX) {
-                mX = mMaxOffsetX;
+            if (mLeft > mMaxOffsetX) {
+                mLeft = mMaxOffsetX;
                 mLineChart.moveViewToX(mOriginAxisMaxLength);
             } else {
-                mLineChart.moveViewToX(mOriginAxisMaxLength * mX / mChartWidth);
+                mLineChart.moveViewToX(mOriginAxisMaxLength * mLeft / mChartWidth);
             }
-            //Log.e("mX", "" + mX);
+            //Log.e("mLeft", "" + mLeft);
         }
-        //System.out.println("left= " + mX + " top= " + 0 + " right= " + mWidth + mX + " bottom= " + mChartHeight);
-        canvas.drawRect(mX, 0, mWidth + mX, mChartHeight, mPreviewPaint1);
-        canvas.drawRect(mX, 0, mWidth + mX, mChartHeight, mPreviewPaint2);
+        //System.out.println("left= " + mLeft + " top= " + 0 + " right= " + mWidth + mLeft + " bottom= " + mChartHeight);
+        canvas.drawRect(mLeft, 0, mWidth + mLeft, mChartHeight, mPreviewPaint1);
+        canvas.drawRect(mLeft, 0, mWidth + mLeft, mChartHeight, mPreviewPaint2);
     }
 
     @Override
@@ -186,12 +191,12 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 Log.e("ACTION_DOWN x", "" + x);
-                if (x > (mX - 50) && x < (mX + mWidth + 50)) {
+                if (x > (mLeft - 50) && x < (mLeft + mWidth + 50)) {
 
                     mInSelectedArea = true;
                     mMoveSelectedArea = true;
                     mLastX = x;
-                    mLastSelectPosition = mX;
+                    mLastSelectPosition = mLeft;
                 } else {
                     mInSelectedArea = false;
                 }
@@ -243,7 +248,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
         mMoveSelectedArea = false;
         float lowestVisibleX = mLineChart.getLowestVisibleX();
-        mX = (int) (mMaxOffsetX * lowestVisibleX / mOriginAxisMaxLength);
+        mLeft = (int) (mMaxOffsetX * lowestVisibleX / mOriginAxisMaxLength);
         invalidate();
         Log.e("onChartTranslate", "" + lowestVisibleX);
     }
