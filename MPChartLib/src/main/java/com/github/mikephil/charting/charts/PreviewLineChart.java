@@ -24,7 +24,7 @@ import java.util.List;
  *******************************
  * data: 2017/9/11               *
  *******************************/
-public class PreviewLineChart extends LineChart implements OnChartGestureListener {
+public class PreviewLineChart extends LineChart {
 
     private final static String TAG = "PreviewLineChart";
     private final static int VisibleXRangeMax = 200;
@@ -40,13 +40,13 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     /**
      * 选择区域的X坐标
      */
-    private int mLeft;
+    private float mLeft;
 
     //onTouchEvent ACTION_DOWN事件中手指的起始位置
     private int mLastX;
 
     //选择区域的最大偏移量
-    private int mMaxOffsetX;
+    private float mMaxOffsetX;
 
     //PreviewLineChart控件的高度
     private int mChartHeight;
@@ -70,6 +70,8 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     private LineChart mLineChart;
     //是否移动选择区域
     private boolean mMoveSelectedArea = true;
+    private float mMinOffsetPixel;
+    private final OnChartGestureListener onChartGestureListener = new OnChartGestureListenerImp();
 
 
     public PreviewLineChart(Context context) {
@@ -105,6 +107,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
         setTouchEnabled(false);
         setScaleEnabled(false);
         setPinchZoom(false);
+        mMinOffsetPixel = Utils.convertDpToPixel(mMinOffset);
     }
 
     public void bindLineChart(LineChart lineChart, int previewCount) {
@@ -130,7 +133,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
         this.mLineChart = lineChart;
         mLineChart.setVisibleXRangeMaximum(VisibleXRangeMax);
         mLineChart.setDragDecelerationFrictionCoef(0.5f);
-        mLineChart.setOnChartGestureListener(this);
+        mLineChart.setOnChartGestureListener(onChartGestureListener);
         setupPreviewLineChart();
     }
 
@@ -158,7 +161,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         mWidth = (mPreviewCount * getWidth()) / mOriginPointAmount;
-        mMaxOffsetX = getWidth() - mWidth;
+        mMaxOffsetX = getWidth() - mWidth - mMinOffsetPixel;
         mChartHeight = getHeight();
         mChartWidth = getWidth();
     }
@@ -169,14 +172,14 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
         if (mMoveSelectedArea) {
             mLeft = mLastSelectPosition + mOffsetX;
             Log.e("mOffsetX", "" + mOffsetX);
-            if (mLeft < Utils.convertDpToPixel(mMinOffset)) {
-                mLeft = (int) Utils.convertDpToPixel(mMinOffset);
+            if (mLeft < mMinOffsetPixel) {
+                mLeft = mMinOffsetPixel;
             }
             if (mLeft > mMaxOffsetX) {
                 mLeft = mMaxOffsetX;
                 mLineChart.moveViewToX(mOriginPointAmount);
             } else {
-                mLineChart.moveViewToX(mOriginPointAmount * (mLeft - Utils.convertDpToPixel(mMinOffset)) / mChartWidth);
+                mLineChart.moveViewToX(mOriginPointAmount * (mLeft - mMinOffsetPixel) / mChartWidth);
             }
             //Log.e("mLeft", "" + mLeft);
         }
@@ -197,7 +200,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
                     mInSelectedArea = true;
                     mMoveSelectedArea = true;
                     mLastX = x;
-                    mLastSelectPosition = mLeft;
+                    mLastSelectPosition = (int) mLeft;
                 } else {
                     mInSelectedArea = false;
                 }
@@ -213,45 +216,56 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
         return true;
     }
 
+    private class OnChartGestureListenerImp implements OnChartGestureListener {
 
-    @Override
-    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+        @Override
+        public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+
+        }
+
+        @Override
+        public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+
+        }
+
+        @Override
+        public void onChartLongPressed(MotionEvent me) {
+
+        }
+
+        @Override
+        public void onChartDoubleTapped(MotionEvent me) {
+
+        }
+
+        @Override
+        public void onChartSingleTapped(MotionEvent me) {
+
+        }
+
+        @Override
+        public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+
+        }
+
+        @Override
+        public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
+
+        }
+
+        @Override
+        public void onChartTranslate(MotionEvent me, float dX, float dY) {
+            mMoveSelectedArea = false;
+            float lowestVisibleX = mLineChart.getLowestVisibleX();
+            mLeft = (int) (mMaxOffsetX * lowestVisibleX / mOriginPointAmount);
+            if (mLeft < mMinOffsetPixel) {
+                mLeft = (int) mMinOffsetPixel;
+            }
+            if (mLeft > mMaxOffsetX) {
+                mLeft = mMaxOffsetX;
+            }
+            invalidate();
+            Log.e("onChartTranslate", "" + lowestVisibleX);
+        }
     }
-
-
-    @Override
-    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-    }
-
-    @Override
-    public void onChartLongPressed(MotionEvent me) {
-    }
-
-
-    @Override
-    public void onChartDoubleTapped(MotionEvent me) {
-    }
-
-    @Override
-    public void onChartSingleTapped(MotionEvent me) {
-    }
-
-    @Override
-    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-    }
-
-    @Override
-    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-
-    }
-
-    @Override
-    public void onChartTranslate(MotionEvent me, float dX, float dY) {
-        mMoveSelectedArea = false;
-        float lowestVisibleX = mLineChart.getLowestVisibleX();
-        mLeft = (int) ((mMaxOffsetX * lowestVisibleX / mOriginPointAmount) + Utils.convertDpToPixel(mMinOffset));
-        invalidate();
-        Log.e("onChartTranslate", "" + lowestVisibleX);
-    }
-
 }
