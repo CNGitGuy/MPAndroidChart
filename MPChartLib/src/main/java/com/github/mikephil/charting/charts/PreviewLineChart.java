@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +61,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     //PreviewLineChart中包含的X坐标的长度
     private int mPreviewCount;
     //原LineChart X坐标的长度
-    private int mOriginAxisMaxLength;
+    private int mOriginPointAmount;
 
     private static final int DEFAULT_PREVIEW_TRANSPARENCY = 64;
     private static final int FULL_ALPHA = 255;
@@ -121,7 +122,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
         }
 
         Arrays.sort(originSetLengths);
-        mOriginAxisMaxLength = originSetLengths[originSetLengths.length - 1];
+        mOriginPointAmount = originSetLengths[originSetLengths.length - 1];
 
         LineData lineData = new LineData(previewDataSets);
         this.setData(lineData);
@@ -156,7 +157,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        mWidth = (mPreviewCount * getWidth()) / mOriginAxisMaxLength;
+        mWidth = (mPreviewCount * getWidth()) / mOriginPointAmount;
         mMaxOffsetX = getWidth() - mWidth;
         mChartHeight = getHeight();
         mChartWidth = getWidth();
@@ -168,14 +169,14 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
         if (mMoveSelectedArea) {
             mLeft = mLastSelectPosition + mOffsetX;
             Log.e("mOffsetX", "" + mOffsetX);
-            if (mLeft < mMinOffset) {
-                mLeft = (int) mMinOffset;
+            if (mLeft < Utils.convertDpToPixel(mMinOffset)) {
+                mLeft = (int) Utils.convertDpToPixel(mMinOffset);
             }
             if (mLeft > mMaxOffsetX) {
                 mLeft = mMaxOffsetX;
-                mLineChart.moveViewToX(mOriginAxisMaxLength);
+                mLineChart.moveViewToX(mOriginPointAmount);
             } else {
-                mLineChart.moveViewToX(mOriginAxisMaxLength * mLeft / mChartWidth);
+                mLineChart.moveViewToX(mOriginPointAmount * (mLeft - Utils.convertDpToPixel(mMinOffset)) / mChartWidth);
             }
             //Log.e("mLeft", "" + mLeft);
         }
@@ -248,7 +249,7 @@ public class PreviewLineChart extends LineChart implements OnChartGestureListene
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
         mMoveSelectedArea = false;
         float lowestVisibleX = mLineChart.getLowestVisibleX();
-        mLeft = (int) (mMaxOffsetX * lowestVisibleX / mOriginAxisMaxLength);
+        mLeft = (int) ((mMaxOffsetX * lowestVisibleX / mOriginPointAmount) + Utils.convertDpToPixel(mMinOffset));
         invalidate();
         Log.e("onChartTranslate", "" + lowestVisibleX);
     }
