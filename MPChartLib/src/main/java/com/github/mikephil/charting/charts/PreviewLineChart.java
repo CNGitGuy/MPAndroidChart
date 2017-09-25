@@ -19,11 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/*******************************
- * Created by liuqiang          *
- *******************************
- * data: 2017/9/11               *
- *******************************/
 public class PreviewLineChart extends LineChart {
 
     private final static String TAG = "PreviewLineChart";
@@ -67,7 +62,7 @@ public class PreviewLineChart extends LineChart {
     private static final int FULL_ALPHA = 255;
     //onTouchEvent ACTION_DOWN事件中手指的位置是否在选择区域中
     private boolean mInSelectedArea = true;
-    private LineChart mLineChart;
+    private LineChart mSrcLineChart;
     //是否移动选择区域
     private boolean mMoveSelectedArea = true;
     private float mMinOffsetPixel;
@@ -130,22 +125,22 @@ public class PreviewLineChart extends LineChart {
         LineData lineData = new LineData(previewDataSets);
         this.setData(lineData);
 
-        this.mLineChart = lineChart;
-        mLineChart.setVisibleXRangeMaximum(VisibleXRangeMax);
-        mLineChart.setDragDecelerationFrictionCoef(0.5f);
-        mLineChart.setOnChartGestureListener(onChartGestureListener);
+        this.mSrcLineChart = lineChart;
+        mSrcLineChart.setVisibleXRangeMaximum(VisibleXRangeMax);
+        mSrcLineChart.setDragDecelerationFrictionCoef(0.5f);
+        mSrcLineChart.setOnChartGestureListener(onChartGestureListener);
         setupPreviewLineChart();
     }
 
 
     private void setupPreviewLineChart() {
-        if (mLineChart.getAxisLeft().getLimitLines().size() > 0) {
-            for (LimitLine l : mLineChart.getAxisLeft().getLimitLines()) {
+        if (mSrcLineChart.getAxisLeft().getLimitLines().size() > 0) {
+            for (LimitLine l : mSrcLineChart.getAxisLeft().getLimitLines()) {
                 mAxisLeft.addLimitLine(l);
             }
         }
-        mAxisLeft.setAxisMaximum(mLineChart.getAxisLeft().getAxisMaximum());
-        mAxisLeft.setAxisMinimum(mLineChart.getAxisLeft().getAxisMinimum());
+        mAxisLeft.setAxisMaximum(mSrcLineChart.getAxisLeft().getAxisMaximum());
+        mAxisLeft.setAxisMinimum(mSrcLineChart.getAxisLeft().getAxisMinimum());
         mAxisLeft.setDrawLimitLinesBehindData(true);
         mAxisRight.setEnabled(false);
         this.getAxisLeft().setDrawLabels(false);
@@ -177,9 +172,9 @@ public class PreviewLineChart extends LineChart {
             }
             if (mLeft > mMaxOffsetX) {
                 mLeft = mMaxOffsetX;
-                mLineChart.moveViewToX(mOriginPointAmount);
+                mSrcLineChart.moveViewToX(mOriginPointAmount);
             } else {
-                mLineChart.moveViewToX(mOriginPointAmount * (mLeft - mMinOffsetPixel) / mChartWidth);
+                mSrcLineChart.moveViewToX(mOriginPointAmount * (mLeft - mMinOffsetPixel) / mChartWidth);
             }
             //Log.e("mLeft", "" + mLeft);
         }
@@ -194,7 +189,7 @@ public class PreviewLineChart extends LineChart {
         int x = (int) event.getX();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.e("ACTION_DOWN x", "" + x);
+//                Log.e("ACTION_DOWN x", "" + x);
                 if (x > (mLeft - 50) && x < (mLeft + mWidth + 50)) {
 
                     mInSelectedArea = true;
@@ -256,8 +251,8 @@ public class PreviewLineChart extends LineChart {
         @Override
         public void onChartTranslate(MotionEvent me, float dX, float dY) {
             mMoveSelectedArea = false;
-            float lowestVisibleX = mLineChart.getLowestVisibleX();
-            mLeft = (int) (mMaxOffsetX * lowestVisibleX / mOriginPointAmount);
+            float lowestVisibleX = mSrcLineChart.getLowestVisibleX();
+            mLeft = (int) (getWidth() * lowestVisibleX / mOriginPointAmount);
             if (mLeft < mMinOffsetPixel) {
                 mLeft = (int) mMinOffsetPixel;
             }
@@ -265,7 +260,7 @@ public class PreviewLineChart extends LineChart {
                 mLeft = mMaxOffsetX;
             }
             invalidate();
-            Log.e("onChartTranslate", "" + lowestVisibleX);
+//            Log.e("onChartTranslate", "" + lowestVisibleX);
         }
     }
 }
